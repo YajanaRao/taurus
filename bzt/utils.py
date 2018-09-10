@@ -51,13 +51,13 @@ from webbrowser import GenericBrowser
 
 import ipaddress
 import psutil
-import requests
+# import requests
 from progressbar import ProgressBar, Percentage, Bar, ETA
 from urwid import BaseScreen
 
-from bzt import TaurusInternalException, TaurusNetworkError, ToolError
-from bzt.six import stream_decode, file_type, etree, parse, deunicode
-from bzt.six import string_types, iteritems, binary_type, text_type, b, integer_types, request
+from __init__ import TaurusInternalException, TaurusNetworkError, ToolError
+from six import stream_decode, file_type, etree, parse, deunicode
+from six import string_types, iteritems, binary_type, text_type, b, integer_types, request
 
 CALL_PROBLEMS = (CalledProcessError, OSError)
 
@@ -938,7 +938,7 @@ def shutdown_process(process_obj, log_obj):
 
 class HTTPClient(object):
     def __init__(self):
-        self.session = requests.Session()
+        # self.session = requests.Session()
         self.log = logging.getLogger(self.__class__.__name__)
         self.proxy_settings = None
 
@@ -958,8 +958,8 @@ class HTTPClient(object):
                 proxy_uri = "%s://%s" % (scheme, proxy_url.netloc)
             self.session.proxies = {"https": proxy_uri, "http": proxy_uri}
 
-        self.session.verify = proxy_settings.get('ssl-cert', True)
-        self.session.cert = proxy_settings.get('ssl-client-cert', None)
+        # self.session.verify = proxy_settings.get('ssl-cert', True)
+        # self.session.cert = proxy_settings.get('ssl-client-cert', None)
 
     def get_proxy_jvm_args(self):
         if not self.proxy_settings:
@@ -1011,7 +1011,8 @@ class HTTPClient(object):
     def request(self, method, url, *args, **kwargs):
         self.log.debug('Making HTTP request %s %s', method, url)
         try:
-            return self.session.request(method, url, *args, **kwargs)
+            # return self.session.request(method, url, *args, **kwargs)
+            return "Am Fake"
         except requests.exceptions.RequestException as exc:
             resp = exc.response
             self.log.debug("Request resulted in exception: %s", traceback.format_exc())

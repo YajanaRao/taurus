@@ -26,10 +26,10 @@ from collections import Counter
 import yaml
 from yaml.representer import SafeRepresenter
 
-from bzt import TaurusInternalException, TaurusConfigError
-from bzt.engine import Aggregator
-from bzt.six import iteritems, PY3
-from bzt.utils import dehumanize_time, JSONConvertible
+from __init__ import TaurusInternalException, TaurusConfigError
+from engine import Aggregator
+from six import iteritems, PY3
+from utils import dehumanize_time, JSONConvertible
 from hdrpy import HdrHistogram
 
 

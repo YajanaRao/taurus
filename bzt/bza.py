@@ -7,13 +7,13 @@ import json
 import logging
 from collections import OrderedDict
 
-import requests
+# import requests
 
-from bzt import TaurusNetworkError, ManualShutdown, VERSION, TaurusException
-from bzt.six import string_types
-from bzt.six import text_type
-from bzt.six import urlencode
-from bzt.utils import to_json, MultiPartForm
+from __init__ import TaurusNetworkError, ManualShutdown, VERSION, TaurusException
+from six import string_types
+from six import text_type
+from six import urlencode
+from utils import to_json, MultiPartForm
 
 BZA_TEST_DATA_RECEIVED = 100
 

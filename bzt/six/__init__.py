@@ -22,9 +22,9 @@ PY2 = sys.version_info[0] == 2
 PY3 = sys.version_info[0] == 3
 
 if PY2:
-    from bzt.six.py2 import *
+    from six.py2 import *
 else:
-    from bzt.six.py3 import *
+    from six.py3 import *
 
 try:
     from lxml import etree

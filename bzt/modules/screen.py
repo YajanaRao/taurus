@@ -44,7 +44,7 @@ class GUIScreen(BaseScreen):
         urwid.set_encoding('utf-8')
         self.root = None
         self.size = (180, 60)
-        self.title = "Taurus Status"
+        self.title = "YAJANA"
         self.text = None
         self.font = None
         self.window_closed = False
@@ -75,7 +75,7 @@ class GUIScreen(BaseScreen):
         self.text.config(font=self.font)
         self.__prepare_tags()
 
-        icon = tkinter.PhotoImage(file=os.path.join(os.path.dirname(os.path.abspath(bztr.__file__)), "taurus_logo.gif"))
+        icon = tkinter.PhotoImage(file=os.path.join('C:/Users/Yajana/Documents/GitHub/taurus/bzt/resources', "taurus_logo.gif"))
         self.root.tk.call('wm', 'iconphoto', self.root._w, icon)
 
     def _stop(self):
@@ -110,6 +110,7 @@ class GUIScreen(BaseScreen):
 
         width = int(math.floor((self.text.winfo_width() - float(cwdth) / 2) / float(cwdth)))
         height = int(math.floor(self.text.winfo_height() / float(chght)))
+
         self.size = (width, height)
         self.root.title(self.title + " %sx%s" % self.size)
 
@@ -126,7 +127,7 @@ class GUIScreen(BaseScreen):
         if not self.root:
             if not self.window_closed:
                 self.window_closed = True
-                raise ManualShutdown("GUI window was closed")
+                # raise ManualShutdown("GUI window was closed")
             return
 
         # enable changes
@@ -169,3 +170,4 @@ class GUIScreen(BaseScreen):
             bgc = self.__translate_tcl_color(style[0].background)
             fgc = self.__translate_tcl_color(style[0].foreground)
             self.text.tag_configure(name, background=bgc, foreground=fgc)
+

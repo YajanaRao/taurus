@@ -29,25 +29,25 @@ from collections import defaultdict, OrderedDict, Counter, namedtuple
 from functools import wraps
 from ssl import SSLError
 
-import requests
+# import requests
 import yaml
-from requests.exceptions import ReadTimeout
+# from requests.exceptions import ReadTimeout
 from terminaltables import SingleTable, AsciiTable
 from urwid import Pile, Text
 
-from bzt import AutomatedShutdown
-from bzt import TaurusInternalException, TaurusConfigError, TaurusException, TaurusNetworkError, NormalShutdown
-from bzt.bza import User, Session, Test, Workspace, MultiTest, BZA_TEST_DATA_RECEIVED
-from bzt.engine import Reporter, Provisioning, ScenarioExecutor, Configuration, Service
-from bzt.engine import Singletone, TAURUS_ARTIFACTS_DIR
-from bzt.modules.aggregator import DataPoint, KPISet, ConsolidatingAggregator, ResultsProvider, AggregatorListener
-from bzt.modules.console import WidgetProvider, PrioritizedWidget
-from bzt.modules.functional import FunctionalResultsReader, FunctionalAggregator, FunctionalSample
-from bzt.modules.monitoring import Monitoring, MonitoringListener
-from bzt.modules.services import Unpacker
-from bzt.six import BytesIO, iteritems, HTTPError, r_input, URLError, b, string_types, text_type
-from bzt.utils import dehumanize_time, BetterDict, ensure_is_dict, ExceptionalDownloader, ProgressBarContext
-from bzt.utils import to_json, open_browser, get_full_path, get_files_recursive, replace_in_config, humanize_bytes
+from __init__ import AutomatedShutdown
+from __init__ import TaurusInternalException, TaurusConfigError, TaurusException, TaurusNetworkError, NormalShutdown
+from bza import User, Session, Test, Workspace, MultiTest, BZA_TEST_DATA_RECEIVED
+from engine import Reporter, Provisioning, ScenarioExecutor, Configuration, Service
+from engine import Singletone, TAURUS_ARTIFACTS_DIR
+from modules.aggregator import DataPoint, KPISet, ConsolidatingAggregator, ResultsProvider, AggregatorListener
+from modules.console import WidgetProvider, PrioritizedWidget
+from modules.functional import FunctionalResultsReader, FunctionalAggregator, FunctionalSample
+from modules.monitoring import Monitoring, MonitoringListener
+from modules.services import Unpacker
+from six import BytesIO, iteritems, HTTPError, r_input, URLError, b, string_types, text_type
+from utils import dehumanize_time, BetterDict, ensure_is_dict, ExceptionalDownloader, ProgressBarContext
+from utils import to_json, open_browser, get_full_path, get_files_recursive, replace_in_config, humanize_bytes
 
 TAURUS_TEST_TYPE = "taurus"
 FUNC_TEST_TYPE = "functionalApi"
@@ -126,7 +126,7 @@ CLOUD_CONFIG_FILTER_RULES = {
 }
 
 CLOUD_CONFIG_FILTER_RULES['modules']['!cloud'] = CLOUD_CONFIG_FILTER_RULES['modules']['!blazemeter']
-NETWORK_PROBLEMS = (IOError, URLError, SSLError, ReadTimeout, TaurusNetworkError)
+# NETWORK_PROBLEMS = (IOError, URLError, SSLError, ReadTimeout, TaurusNetworkError)
 NOTE_SIZE_LIMIT = 2048
 
 
@@ -134,7 +134,8 @@ def send_with_retry(method):
     @wraps(method)
     def _impl(self, *args, **kwargs):
         if not isinstance(self, BlazeMeterUploader):
-            raise TaurusInternalException("send_with_retry should only be applied to BlazeMeterUploader methods")
+            # raise TaurusInternalException("send_with_retry should only be applied to BlazeMeterUploader methods")
+            pass
 
         try:
             method(self, *args, **kwargs)
@@ -156,7 +157,8 @@ def get_with_retry(method):
     @wraps(method)
     def _impl(self, *args, **kwargs):
         if not isinstance(self, CloudProvisioning):
-            raise TaurusInternalException("get_with_retry should only be applied to CloudProvisioning class methods")
+            # raise TaurusInternalException("get_with_retry should only be applied to CloudProvisioning class methods")
+            pass
 
         while True:
             try:

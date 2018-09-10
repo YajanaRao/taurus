@@ -91,7 +91,8 @@ class Ruby(RequiredTool):
             return False
 
     def install(self):
-        raise ToolError("The %s is not operable or not available. Consider installing it" % self.tool_name)
+        # raise ToolError("The %s is not operable or not available. Consider installing it" % self.tool_name)
+        pass
 
 
 class RSpec(RequiredTool):
@@ -110,7 +111,8 @@ class RSpec(RequiredTool):
             return False
 
     def install(self):
-        raise ToolError("The %s is not operable or not available. Consider installing it" % self.tool_name)
+        # raise ToolError("The %s is not operable or not available. Consider installing it" % self.tool_name)
+        pass
 
 
 class TaurusRSpecPlugin(RequiredTool):

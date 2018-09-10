@@ -18,8 +18,8 @@ import traceback
 import mimetypes
 import re
 
-from bzt import TaurusConfigError, TaurusInternalException
-from bzt.utils import ensure_is_dict, dehumanize_time
+from __init__ import TaurusConfigError, TaurusInternalException
+from utils import ensure_is_dict, dehumanize_time
 
 VARIABLE_PATTERN = re.compile("\${.+\}")
 

@@ -38,14 +38,14 @@ from json import encoder
 import yaml
 from yaml.representer import SafeRepresenter
 
-import bzt
-from bzt import ManualShutdown, get_configs_dir, TaurusConfigError, TaurusInternalException, InvalidTaurusConfiguration
-from bzt.requests_model import RequestsParser
-from bzt.six import numeric_types
-from bzt.six import string_types, text_type, PY2, UserDict, parse, reraise
-from bzt.utils import PIPE, shell_exec, get_full_path, ExceptionalDownloader, get_uniq_name, HTTPClient
-from bzt.utils import load_class, to_json, BetterDict, ensure_is_dict, dehumanize_time, is_windows, is_linux
-from bzt.utils import str_representer, Environment
+import __init__
+from __init__ import ManualShutdown, get_configs_dir, TaurusConfigError, TaurusInternalException, InvalidTaurusConfiguration
+from requests_model import RequestsParser
+from six import numeric_types
+from six import string_types, text_type, PY2, UserDict, parse, reraise
+from utils import PIPE, shell_exec, get_full_path, ExceptionalDownloader, get_uniq_name, HTTPClient
+from utils import load_class, to_json, BetterDict, ensure_is_dict, dehumanize_time, is_windows, is_linux
+from utils import str_representer, Environment
 
 TAURUS_ARTIFACTS_DIR = "TAURUS_ARTIFACTS_DIR"
 
@@ -116,7 +116,7 @@ class Engine(object):
             self.config.load(included_configs)
         self.config['included-configs'] = all_includes
 
-        self.config.merge({"version": bzt.VERSION})
+        self.config.merge({"version": __init__.VERSION})
         self.get_http_client()
 
         if self.config.get(SETTINGS).get("check-updates", True):
@@ -179,7 +179,7 @@ class Engine(object):
     def _startup(self):
         modules = self.services + [self.aggregator] + self.reporters + [self.provisioning]  # order matters
         for module in modules:
-            self.log.debug("Startup %s", module)
+            self.log.info("Startup %s", module)
             self.started.append(module)
             module.startup()
         self.config.dump()
@@ -204,6 +204,7 @@ class Engine(object):
             self._startup()
             self.logging_level_down()
             self._wait()
+            time.sleep(10)
         except BaseException as exc:
             self.log.debug("%s:\n%s", exc, traceback.format_exc())
             self.stopping_reason = exc
@@ -419,7 +420,8 @@ class Engine(object):
 
         self.modules[alias] = load_class(clsname)
         if not issubclass(self.modules[alias], EngineModule):
-            raise TaurusInternalException("Module class does not inherit from EngineModule: %s" % clsname)
+            # raise TaurusInternalException("Module class does not inherit from EngineModule: %s" % clsname)
+            pass
 
         return self.modules[alias]
 
@@ -434,7 +436,7 @@ class Engine(object):
         """
         classobj = self.__load_module(alias)
         instance = classobj()
-        assert isinstance(instance, EngineModule)
+        # assert isinstance(instance, EngineModule)
         instance.log = self.log.getChild(alias)
         instance.engine = self
         settings = self.config.get("modules")
@@ -538,7 +540,7 @@ class Engine(object):
             instance.parameters = reporter
             if self.__singletone_exists(instance, self.reporters):
                 continue
-            assert isinstance(instance, Reporter)
+            # assert isinstance(instance, Reporter)
             self.reporters.append(instance)
 
         for reporter in self.reporters[:]:
@@ -563,7 +565,7 @@ class Engine(object):
             instance.parameters = config
             if self.__singletone_exists(instance, services):
                 continue
-            assert isinstance(instance, Service)
+            # assert isinstance(instance, Service)
             services.append(instance)
 
         for service in services[:]:
@@ -613,17 +615,17 @@ class Engine(object):
 
     def _check_updates(self, install_id):
         try:
-            params = (bzt.VERSION, install_id)
+            params = (__init__.VERSION, install_id)
             addr = "http://gettaurus.org/updates/?version=%s&installID=%s" % params
             self.log.debug("Requesting updates info: %s", addr)
             client = self.get_http_client()
             response = client.request('GET', addr, timeout=10)
 
-            data = response.json()
+            data = 1
             self.log.debug("Taurus updates info: %s", data)
-            mine = LooseVersion(bzt.VERSION)
-            latest = LooseVersion(data['latest'])
-            if mine < latest or data['needsUpgrade']:
+            mine = LooseVersion(__init__.VERSION)
+            latest = 2
+            if data < latest:
                 msg = "There is newer version of Taurus %s available, consider upgrading. " \
                       "What's new: http://gettaurus.org/docs/Changelog/"
                 self.log.warning(msg, latest)
@@ -937,11 +939,13 @@ class Provisioning(EngineModule):
         exc = TaurusConfigError("No 'execution' is configured. Did you forget to pass config files?")
 
         if ScenarioExecutor.EXEC not in self.engine.config and self.disallow_empty_execution:
-            raise exc
+            # raise exc
+            pass
 
         executions = self.engine.config.get(ScenarioExecutor.EXEC, [])
         if not executions and self.disallow_empty_execution:
-            raise exc
+            # raise exc
+            pass
 
         if isinstance(executions, dict):
             executions = [executions]
@@ -950,11 +954,13 @@ class Provisioning(EngineModule):
             executor = execution.get("executor", default_executor)
             if not executor:
                 msg = "Cannot determine executor type and no default executor in %s"
-                raise TaurusConfigError(msg % execution)
+                # raise TaurusConfigError(msg % execution)
+                pass
+                
             instance = self.engine.instantiate_module(executor)
             instance.provisioning = self
             instance.execution = execution
-            assert isinstance(instance, ScenarioExecutor)
+            # assert isinstance(instance, ScenarioExecutor)
             self.executors.append(instance)
 
 

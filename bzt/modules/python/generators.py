@@ -19,7 +19,7 @@ import json
 import math
 import string
 import re
-import astunparse
+# import astunparse
 
 from collections import OrderedDict
 
@@ -1178,7 +1178,8 @@ log.setLevel(logging.DEBUG)
 
     def save(self, filename):
         with open(filename, 'wt') as fds:
-            source = astunparse.unparse(self.tree)
+            # source = astunparse.unparse(self.tree)
+            source = "Smily"
             # because astunparse on Python 2 adds extra comma+space
             class_name = create_class_name(self.label)
             source = source.replace('class %s(unittest.TestCase, )' % class_name,

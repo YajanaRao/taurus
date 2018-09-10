@@ -76,8 +76,10 @@ class ConsoleStatusReporter(Reporter, AggregatorListener, Singletone):
     def _get_screen(self):
         screen_type = self._get_screen_type()
         if screen_type == "console":
+            self.log.info("console")
             return ConsoleScreen()
         elif screen_type == "gui":
+            self.log.info("gui")
             return GUIScreen()
         else:
             cols = self.settings.get('dummy-cols', self.screen_size[0])
@@ -174,7 +176,7 @@ class ConsoleStatusReporter(Reporter, AggregatorListener, Singletone):
         if not self.screen.started:
             self.__redirect_streams()
             self.screen.start()
-            self.log.info("Waiting for finish...")
+            self.log.info("Waiting for finish... Ha Ha Ha")
 
     def __update_screen(self):
         """
@@ -1087,7 +1089,7 @@ class TaurusLogo(Pile):
     """
     seq = r'/-\|'
 
-    by_text = '%s v%s by BlazeMeter.com %s'
+    by_text = '%s v%s by Yajana.N.Rao %s'
 
     def __init__(self):
         self.idx = 0

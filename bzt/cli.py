@@ -30,15 +30,15 @@ from tempfile import NamedTemporaryFile
 import yaml
 from colorlog import ColoredFormatter
 
-import bzt
-from bzt import ManualShutdown, NormalShutdown, RCProvider, AutomatedShutdown
-from bzt import TaurusException, ToolError
-from bzt import TaurusInternalException, TaurusConfigError, TaurusNetworkError
-from bzt.engine import Engine, Configuration, ScenarioExecutor
-from bzt.engine import SETTINGS
-from bzt.linter import ConfigurationLinter
-from bzt.six import HTTPError, string_types, get_stacktrace, integer_types
-from bzt.utils import run_once, is_int, BetterDict, get_full_path, is_url
+import __init__
+from __init__ import ManualShutdown, NormalShutdown, RCProvider, AutomatedShutdown
+from __init__ import TaurusException, ToolError
+from __init__ import TaurusInternalException, TaurusConfigError, TaurusNetworkError
+from engine import Engine, Configuration, ScenarioExecutor
+from engine import SETTINGS
+from linter import ConfigurationLinter
+from six import HTTPError, string_types, get_stacktrace, integer_types
+from utils import run_once, is_int, BetterDict, get_full_path, is_url
 
 
 class CLI(object):
@@ -56,7 +56,7 @@ class CLI(object):
         self.options = options
         self.setup_logging(options)
         self.log = logging.getLogger('')
-        self.log.info("Taurus CLI Tool v%s", bzt.VERSION)
+        self.log.info("Taurus CLI Tool v%s", __init__.VERSION)
         self.log.debug("Command-line options: %s", self.options)
         self.log.debug("Python: %s %s", platform.python_implementation(), platform.python_version())
         self.log.debug("OS: %s", platform.uname())
@@ -600,7 +600,7 @@ class OptionParserWithAliases(OptionParser, object):
 
 def get_option_parser():
     usage = "Usage: bzt [options] [configs] [-aliases]"
-    dsc = "BlazeMeter Taurus Tool v%s, the configuration-driven test running engine" % bzt.VERSION
+    dsc = "BlazeMeter Taurus Tool v%s, the configuration-driven test running engine" % __init__.VERSION
     parser = OptionParserWithAliases(usage=usage, description=dsc, prog="bzt")
     parser.add_option('-l', '--log', action='store', default=None,
                       help="Log file location")
